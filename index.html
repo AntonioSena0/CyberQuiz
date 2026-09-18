@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberQuiz — Quiz da Segurança Cibernética</title>
+  <meta name="description" content="Aprenda a se proteger de golpes na internet e teste seus conhecimentos em 12 perguntas interativas com animações, timer e ranking local." />
+  <meta name="keywords" content="segurança cibernética, quiz, phishing, senhas, golpes whatsapp, golpe pix, segurança digital, quiz interativo" />
+  <meta name="author" content="CyberQuiz" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta property="og:title" content="CyberQuiz — Quiz da Segurança Cibernética" />
+  <meta property="og:description" content="Teste seus conhecimentos sobre segurança digital e pessoal. Você é um expert em segurança?" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/LogoCyberQuiz.png" />
+  <link rel="icon" type="image/png" href="assets/LogoCyberQuiz.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
+  <div class="bg-gradient" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <a class="skip-link" href="#quiz">Pular para o quiz</a>
+  <header class="header" id="header">
+    <nav class="nav container" aria-label="Navegação principal">
+      <a href="#home" class="brand">
+        <span class="brand-text">CYBER<em>QUIZ</em></span>
+      </a>
+      <div class="nav-links">
+        <a href="#home" class="nav-link">Início</a>
+        <a href="#aprender" class="nav-link">Aprenda</a>
+        <a href="#como-funciona" class="nav-link">Como funciona</a>
+        <a href="#quiz" class="nav-link">Quiz</a>
+        <a href="#ranking" class="nav-link">Ranking</a>
+      </div>
+      <div class="nav-right">
+        <div class="best-badge" title="Sua melhor pontuação salva no navegador">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+          <span id="best-score">0/12</span>
+        </div>
+        <button id="sound-toggle" class="icon-btn" aria-label="Ativar/desativar sons" aria-pressed="true" title="Som: ligado">
+          <svg id="sound-icon-on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          <svg id="sound-icon-off" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#home">Início</a>
+      <a href="#aprender">Aprenda</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#ranking">Ranking</a>
+    </div>
+  </header>
+  <main>
+    <section id="home" class="hero container">
+      <div class="hero-content">
+        <div class="hero-badge pulse">
+          <span class="dot"></span> SISTEMA DE SEGURANÇA ATIVO • 12 DESAFIOS
+        </div>
+        <h1 class="hero-title glitch" data-text="Quiz da Segurança Cibernética">
+          <span id="typewriter" aria-label="Quiz da Segurança Cibernética"></span><span class="caret" aria-hidden="true">▌</span>
+        </h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          Aprenda a se proteger de <strong>golpes, senhas fracas e links falsos</strong> —
+          depois prove no quiz que você sabe se defender na internet.
+        </p>
+        <div class="hero-actions">
+          <button id="btn-start" class="btn btn-primary magnetic">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Iniciar Quiz
+          </button>
+          <a href="#aprender" class="btn btn-ghost magnetic">Aprender a se proteger</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>12</strong><span>perguntas</span></div>
+          <div class="stat"><strong>15s</strong><span>por questão</span></div>
+          <div class="stat"><strong>∞</strong><span>tentativas</span></div>
+        </div>
+        <p class="kbd-hint">Dica: use as teclas <kbd>1</kbd>–<kbd>4</kbd> para responder • <kbd>Enter</kbd> para começar</p>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="shield-wrap float">
+          <svg class="shield" viewBox="0 0 200 220" fill="none">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#00ff88"/><stop offset=".5" stop-color="#00d4ff"/><stop offset="1" stop-color="#7b2cbf"/>
+              </linearGradient>
+            </defs>
+            <path d="M100 8 L180 38 V110 C180 160 140 195 100 212 C60 195 20 160 20 110 V38 Z" stroke="url(#shieldGrad)" stroke-width="4" fill="rgba(0,255,136,.06)"/>
+            <path d="M100 30 L160 52 V110 C160 148 130 176 100 190 C70 176 40 148 40 110 V52 Z" stroke="rgba(0,212,255,.35)" stroke-width="2"/>
+            <g stroke="url(#shieldGrad)" stroke-width="5" stroke-linecap="round">
+              <rect x="82" y="92" width="36" height="30" rx="4"/>
+              <path d="M88 92 V82 a12 12 0 0 1 24 0 V92"/>
+              <circle cx="100" cy="106" r="4" fill="#00ff88" stroke="none"/>
+              <path d="M100 110 V116" />
+            </g>
+          </svg>
+          <div class="orbit o1"><span class="sat s-green"></span></div>
+          <div class="orbit o2"><span class="sat s-cyan"></span></div>
+          <div class="orbit o3"><span class="sat s-purple"></span></div>
+        </div>
+        <div class="hud-card hud-1">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00ff88" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div><strong>2FA ativa</strong><small>conta protegida</small></div>
+        </div>
+        <div class="hud-card hud-2">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ff4d6d" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <div><strong>Phishing bloqueado</strong><small>link suspeito</small></div>
+        </div>
+        <div class="hud-card hud-3">
+          <span class="eq"><i></i><i></i><i></i><i></i></span>
+          <div><strong>Sensor ativo</strong><small>movimento: 0 alertas</small></div>
+        </div>
+      </div>
+      <a href="#como-funciona" class="scroll-down" aria-label="Rolar para próxima seção"><span></span></a>
+    </section>
+    <section id="como-funciona" class="section container">
+      <h2 class="section-title reveal">Como funciona o <span class="neon">desafio</span></h2>
+      <p class="section-sub reveal">Três passos para provar que você é um expert em segurança.</p>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-icon"><i class="bi bi-stopwatch-fill"></i></div>
+          <h3>1. Responda no limite</h3>
+          <p>Cada pergunta vale 1 ponto e tem <strong>15 segundos</strong> no cronômetro. O tempo esgota? Conta como erro — sem moleza.</p>
+        </article>
+        <article class="card reveal">
+          <div class="card-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+          <h3>2. Feedback instantâneo</h3>
+          <p>Acertou: <strong class="ok">confete + som</strong>. Errou: a resposta certa pisca e você aprende na hora.</p>
+        </article>
+        <article class="card reveal">
+          <div class="card-icon"><i class="bi bi-trophy-fill"></i></div>
+          <h3>3. Entre pro ranking</h3>
+          <p>Sua pontuação fica salva <strong>localmente</strong>. Refaça, compartilhe e bata seu recorde.</p>
+        </article>
+      </div>
+    </section>
+    <section id="aprender" class="section container">
+      <h2 class="section-title reveal">Aprenda a se <span class="neon">proteger</span></h2>
+      <p class="section-sub reveal">O guia rápido que cai no quiz — linguagem simples, sem enrolação técnica.</p>
+      <div class="learn-grid">
+        <article class="card learn-card reveal">
+          <div class="card-icon"><i class="bi bi-key-fill"></i></div>
+          <h3>Senhas que seguram</h3>
+          <p>Use uma senha <strong>diferente em cada serviço importante</strong> (banco, e-mail, redes). Prefira frases longas que só você entende e nunca repita a mesma em tudo.</p>
+          <ul class="learn-list">
+            <li><i class="bi bi-check-circle-fill"></i> Ative a verificação em duas etapas</li>
+            <li><i class="bi bi-check-circle-fill"></i> Nunca compartilhe senhas, nem com familiares</li>
+            <li><i class="bi bi-x-circle-fill"></i> Fuja de datas de nascimento e sequências</li>
+          </ul>
+        </article>
+        <article class="card learn-card reveal">
+          <div class="card-icon"><i class="bi bi-shield-lock-fill"></i></div>
+          <h3>Código de verificação é seu</h3>
+          <p>Recebeu um código por SMS ou WhatsApp que <strong>não pediu</strong>? Alguém pode estar tentando entrar na sua conta. Não informe esse código para ninguém.</p>
+          <ul class="learn-list">
+            <li><i class="bi bi-check-circle-fill"></i> Troque a senha do serviço na hora</li>
+            <li><i class="bi bi-check-circle-fill"></i> Confira se a verificação em duas etapas está ativa</li>
+            <li><i class="bi bi-x-circle-fill"></i> Suporte de verdade nunca pede código</li>
+          </ul>
+        </article>
+        <article class="card learn-card reveal">
+          <div class="card-icon"><i class="bi bi-link-45deg"></i></div>
+          <h3>Link suspeito? Não clique</h3>
+          <p>Mensagens com <strong>pressa e ameaça</strong> ("conta bloqueada", "clique agora") são o golpe mais comum. Confira o remetente e entre no app oficial digitando o endereço.</p>
+          <ul class="learn-list">
+            <li><i class="bi bi-check-circle-fill"></i> Passe o dedo: veja o endereço real do link</li>
+            <li><i class="bi bi-check-circle-fill"></i> Na dúvida, acesse pelo app oficial</li>
+            <li><i class="bi bi-x-circle-fill"></i> Nunca digite senha em link recebido</li>
+          </ul>
+        </article>
+        <article class="card learn-card reveal">
+          <div class="card-icon"><i class="bi bi-whatsapp"></i></div>
+          <h3>Golpe do WhatsApp e do Pix</h3>
+          <p>"Sou eu, troquei de número, me manda um Pix urgente!" — <strong>sempre confirme por ligação de voz ou vídeo</strong> no número antigo antes de transferir qualquer valor.</p>
+          <ul class="learn-list">
+            <li><i class="bi bi-check-circle-fill"></i> Desconfie de preço muito abaixo do normal</li>
+            <li><i class="bi bi-check-circle-fill"></i> Prefira pagar com proteção (cartão, plataforma)</li>
+            <li><i class="bi bi-x-circle-fill"></i> Pix antecipado para desconhecido é sinal vermelho</li>
+          </ul>
+        </article>
+        <article class="card learn-card reveal">
+          <div class="card-icon"><i class="bi bi-wifi"></i></div>
+          <h3>Rede aberta e celular em dia</h3>
+          <p>Wi-Fi grátis de shopping ou praça <strong>não é seguro para banco</strong>. Use seus dados móveis e mantenha o celular atualizado, com senha de bloqueio e backup ativado.</p>
+          <ul class="learn-list">
+            <li><i class="bi bi-check-circle-fill"></i> Atualizações corrigem falhas que golpistas usam</li>
+            <li><i class="bi bi-check-circle-fill"></i> Backup salva fotos e arquivos se perder o aparelho</li>
+            <li><i class="bi bi-x-circle-fill"></i> Não baixe apps fora das lojas oficiais</li>
+          </ul>
+        </article>
+        <article class="card learn-card reveal">
+          <div class="card-icon"><i class="bi bi-eye-slash-fill"></i></div>
+          <h3>Privacidade nas redes</h3>
+          <p>Evite postar <strong>endereço, rotina, documentos e viagens em tempo real</strong>. Ajuste quem pode ver suas publicações e pense duas vezes antes de aceitar desconhecidos.</p>
+          <ul class="learn-list">
+            <li><i class="bi bi-check-circle-fill"></i> Revise as permissões dos aplicativos</li>
+            <li><i class="bi bi-check-circle-fill"></i> Joguinhos que pedem contatos e SMS: negue</li>
+            <li><i class="bi bi-x-circle-fill"></i> Banco que liga pedindo senha é golpe — desligue</li>
+          </ul>
+        </article>
+      </div>
+      <div class="learn-cta reveal">
+        <p><i class="bi bi-mortarboard-fill"></i> Leu tudo? Agora teste na prática.</p>
+        <a href="#quiz" class="btn btn-primary magnetic" id="btn-learn-quiz">Fazer o quiz agora</a>
+      </div>
+    </section>
+    <section id="quiz" class="section container">
+      <h2 class="section-title reveal">Central de <span class="neon">desafios</span></h2>
+      <div class="quiz-shell reveal" id="quiz-shell">
+        <div class="quiz-top">
+          <div class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-aria">
+            <div class="progress-track"><div class="progress-fill" id="progress-fill"></div><div class="progress-glow"></div></div>
+            <div class="progress-meta"><span id="q-counter">1/12</span><span id="progress-pct">0%</span></div>
+          </div>
+          <div class="timer-wrap" title="Tempo restante">
+            <svg class="timer-ring" viewBox="0 0 44 44" width="52" height="52">
+              <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="5"/>
+              <circle id="timer-stroke" cx="22" cy="22" r="18" fill="none" stroke="#00ff88" stroke-width="5" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="0" transform="rotate(-90 22 22)"/>
+            </svg>
+            <span id="timer-num">15</span>
+          </div>
+        </div>
+        <div class="timer-bar"><div id="timer-fill"></div></div>
+        <div class="quiz-intro" id="quiz-intro">
+          <div class="intro-icon"><i class="bi bi-lock-fill"></i></div>
+          <h3>Pronto para o teste?</h3>
+          <p>12 perguntas sobre golpes, senhas, links e proteção no dia a dia.<br />Acertar <strong>10 ou mais</strong> te torna um expert.</p>
+          <button class="btn btn-primary magnetic" id="btn-start-2">Começar agora</button>
+        </div>
+        <div class="quiz-body" id="quiz-body" hidden>
+          <div class="q-category" id="q-category">SEGURANÇA DIGITAL</div>
+          <h3 class="q-text" id="q-text" aria-live="polite">Pergunta…</h3>
+          <div class="options" id="options" role="group" aria-label="Alternativas"></div>
+          <div class="q-tip" id="q-tip" hidden></div>
+          <div class="quiz-foot">
+            <span class="score-live">Pontos: <strong id="score-live">0</strong></span>
+            <span class="q-hint">Clique ou pressione 1–4</span>
+          </div>
+        </div>
+        <div class="feedback-pop" id="feedback-pop" aria-live="assertive"></div>
+        <div class="result" id="result" hidden>
+          <div class="medal" id="medal"><i id="medal-icon" class="bi bi-trophy-fill"></i></div>
+          <div class="result-score"><span id="final-score">0/12</span></div>
+          <div class="result-level" id="final-level">—</div>
+          <p class="result-msg" id="final-msg">—</p>
+          <div class="result-stars" id="final-stars" aria-hidden="true"></div>
+          <div class="result-actions">
+            <button class="btn btn-primary magnetic" id="btn-retry">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.5 9A9 9 0 0 0 5.6 5.6L1 10m22 4l-4.6 4.4A9 9 0 0 1 3.5 15"/></svg>
+              Refazer Quiz
+            </button>
+            <button class="btn btn-ghost magnetic" id="btn-share">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+              Compartilhar
+            </button>
+          </div>
+          <p class="share-note" id="share-note" role="status"></p>
+        </div>
+      </div>
+    </section>
+    <section id="ranking" class="section container">
+      <h2 class="section-title reveal">Ranking <span class="neon">local</span></h2>
+      <p class="section-sub reveal">Salvo no seu navegador. Limpe quando quiser.</p>
+      <div class="ranking-grid reveal">
+        <div class="ranking-card">
+          <h3>Últimas tentativas</h3>
+          <ol id="history-list" class="history-list"><li class="empty"><i class="bi bi-controller"></i> Nenhuma tentativa ainda. Jogue!</li></ol>
+        </div>
+        <div class="ranking-card">
+          <h3>Estatísticas</h3>
+          <ul class="stats-list">
+            <li>Melhor pontuação: <strong id="stat-best">—</strong></li>
+            <li>Total de partidas: <strong id="stat-games">0</strong></li>
+            <li>Média de acertos: <strong id="stat-avg">—</strong></li>
+          </ul>
+          <button class="btn btn-danger" id="btn-clear">Limpar histórico</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span><img src="assets/LogoCyberQuiz.png" alt="" height="24" class="footer-logo" /> CyberQuiz</span>
+      <span class="footer-keys">Teclas: <kbd>1</kbd>–<kbd>4</kbd> responder • <kbd>Enter</kbd> iniciar</span>
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="js/main.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>
